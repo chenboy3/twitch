@@ -63,6 +63,20 @@ body {
 	margin-left: 615px;
 }
 
+.rotatediv {
+	margin-top: 20px;
+}
+
+.rotate {
+	margin-top: 10px;
+	background: rgb(0,0,0);
+	color: rgb(100,65,164);
+}
+.rotate:hover {
+	background: rgb(241,241,241);
+	color: rgb(185,163,227);
+}
+
 .video1 {
 	margin-top: 50px;
 	margin-left: -145px;

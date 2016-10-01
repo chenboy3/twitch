@@ -60,3 +60,12 @@ function channel2() {
 	document.getElementById('chat2').src = 'http://www.twitch.tv/' + name + '/chat';
 
 }
+
+function rotate() {
+	var temp1 = document.getElementById('video1').src;
+	var temp2 = document.getElementById('chat1').src;
+	document.getElementById('video1').src = document.getElementById('video2').src;
+	document.getElementById('chat1').src = document.getElementById('chat2').src;
+	document.getElementById('video2').src = temp1;
+	document.getElementById('chat2').src = temp2;
+}
