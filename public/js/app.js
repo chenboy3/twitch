@@ -46,3 +46,10 @@ app.controller('textingController', function($scope, $http, $interval){
 		$http.get('/pingNewMatches/'+$scope.bracketId);
 	}, 5000);
 })
+
+function channel() {
+	var name = document.getElementById("channelName").value;
+	document.getElementById('video').src = 'http://player.twitch.tv/?channel=' + name;
+	document.getElementById('chat').src = 'http://www.twitch.tv/' + name + '/chat';
+
+}
