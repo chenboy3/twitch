@@ -1,0 +1,31 @@
+{
+  "name": "ChallongeTexter",
+  "version": "0.0.0",
+  "description": "challonge texter",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/niccalle/ChallongeTexter.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/niccalle/ChallongeTexter/issues"
+  },
+  "dependencies": {
+    "express": "~4.13.4",
+    "twilio": "~3.3.0-edge",
+    "body-parser": "~1.14.2",
+    "express-handlebars": "~3.0.0",
+    "mongoose": "~4.4.4",
+    "requests": "~0.1.7"
+  },
+  "engines": {
+    "node": "0.10.25"
+  },
+  "devDependencies": {}
+}
