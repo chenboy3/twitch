@@ -47,16 +47,30 @@ body {
 	background: rgb(0,0,0);
 }
 
-.video {
+.video1 {
 	margin-top: 50px;
-	margin-left: 90px;
+	margin-left: -145px;
 	float: middle;
 	position: absolute;
 }
 
-.chat {
-	margin-top: 590px;
-	margin-left: 90px;
+.chat1 {
+	margin-top: 450px;
+	margin-left: -145px;
+	float: middle;
+	position: absolute;
+}
+
+.video2 {
+	margin-top: 50px;
+	margin-left: 565px;
+	float: middle;
+	position: absolute;
+}
+
+.chat2 {
+	margin-top: 450px;
+	margin-left: 565px;
 	float: middle;
 	position: absolute;
 }

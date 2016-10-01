@@ -47,9 +47,16 @@ app.controller('textingController', function($scope, $http, $interval){
 	}, 5000);
 })
 
-function channel() {
-	var name = document.getElementById("channelName").value;
-	document.getElementById('video').src = 'http://player.twitch.tv/?channel=' + name;
-	document.getElementById('chat').src = 'http://www.twitch.tv/' + name + '/chat';
+function channel1() {
+	var name = document.getElementById("channelName1").value;
+	document.getElementById('video1').src = 'http://player.twitch.tv/?channel=' + name;
+	document.getElementById('chat1').src = 'http://www.twitch.tv/' + name + '/chat';
+
+}
+
+function channel2() {
+	var name = document.getElementById("channelName2").value;
+	document.getElementById('video2').src = 'http://player.twitch.tv/?channel=' + name;
+	document.getElementById('chat2').src = 'http://www.twitch.tv/' + name + '/chat';
 
 }

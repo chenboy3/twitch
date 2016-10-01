@@ -24,26 +24,39 @@
 		<div class="header">
 			<div class="row">
 				<h1 class="col-md-12 text-center">
-					Twitch is Love
+					Rotating MultiTwitch
 				</h1>
 			</div>
 		</div>
 
 		<div class="entry text-center">
 			<div class="row channel">
-				<div class="col-md-12 text">
+				<div class="col-md-3 text">
+					Channel:
+				</div>
+				<div class="col-md-18 text">
 					Channel:
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-12">
-					 <input class = "channelEntry" id="channelName" type="text" name="" value="">
+				<div class="col-md-3">
+					 <input class = "channelEntry" id="channelName1" type="text" name="" value="">
+				</div>
+				<div class="col-md-30">
+					 <input class = "channelEntry" id="channelName2" type="text" name="" value="">
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-12 text-center">
+				<div class="col-md-3 text-center">
 					<!-- <a href="#"> -->
-						<button onclick="channel()" class="submit btn btn-primary btn-lg">
+						<button onclick="channel1()" class="submit btn btn-primary btn-lg">
+							Submit!
+						</button>
+<!-- 					</a> -->
+				</div>
+				<div class="col-md-30 text-center">
+					<!-- <a href="#"> -->
+						<button onclick="channel2()" class="submit btn btn-primary btn-lg">
 							Submit!
 						</button>
 <!-- 					</a> -->
@@ -52,26 +65,50 @@
 		</div>
 
 		 <iframe
-		 	id = "video"
-		 	class="video"
+		 	id = "video1"
+		 	class="video1"
 	        src="http://player.twitch.tv/?channel=beyondthesummit"
-	        height="540"
-	        width="960"
+	        height="405"
+	        width="710"
+	        frameborder="0"
+	        scrolling="no"
+	        allowfullscreen="true">
+	    </iframe>
+
+	    <iframe
+		 	id = "video2"
+		 	class="video2"
+	        src="http://player.twitch.tv/?channel=Twitch"
+	        height="405"
+	        width="710"
 	        frameborder="0"
 	        scrolling="no"
 	        allowfullscreen="true">
 	    </iframe>
 
 		<iframe
-			id = "chat"
-			class="chat"
+			id = "chat1"
+			class="chat1"
 			frameborder="0"
 	        scrolling="no"
 	        id="chat_embed"
 	        src="http://www.twitch.tv/beyondthesummit/chat"
-	        height="500px"
-	        width="960px">
+	        height="400px"
+	        width="710px">
 		</iframe>
+
+		<iframe
+			id = "chat2"
+			class="chat2"
+			frameborder="0"
+	        scrolling="no"
+	        id="chat_embed"
+	        src="http://www.twitch.tv/Twitch/chat"
+	        height="400px"
+	        width="710px">
+		</iframe>
+
+
 	</div>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script type="text/javascript" src="js/app.js"></script>
