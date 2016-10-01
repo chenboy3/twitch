@@ -18,7 +18,15 @@ body {
 	font-family: Helvetica Neue;
 }
 
-.channel {
+.channel1 {
+	margin-left: 120px;
+	color: rgb(255,255,255);
+	font-family: Helvetica;
+}
+
+.channel2 {
+	margin-left: 450px;
+	/*margin-left: 700px; */
 	color: rgb(255,255,255);
 	font-family: Helvetica;
 }
@@ -47,6 +55,14 @@ body {
 	background: rgb(0,0,0);
 }
 
+.submitdiv {
+	margin-left: 55px;
+}
+
+.submitdiv2 {
+	margin-left: 615px;
+}
+
 .video1 {
 	margin-top: 50px;
 	margin-left: -145px;
@@ -55,7 +71,7 @@ body {
 }
 
 .chat1 {
-	margin-top: 450px;
+	margin-top: 455px;
 	margin-left: -145px;
 	float: middle;
 	position: absolute;
@@ -69,7 +85,7 @@ body {
 }
 
 .chat2 {
-	margin-top: 450px;
+	margin-top: 455px;
 	margin-left: 565px;
 	float: middle;
 	position: absolute;
