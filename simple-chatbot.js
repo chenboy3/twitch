@@ -231,8 +231,8 @@ chatClient.prototype.updateInfo = function(parsedMessage) {
     var self = this;
     $.get(getURL, function(response){
         var numTotalViewers = response['stream']['viewers'];
-        if (numTotalViewers > this.maxViewers) {
-            this.maxViewers = numTotalViewers;
+        if (numTotalViewers > self.maxViewers) {
+            self.maxViewers = numTotalViewers;
         }
         self.updateTable(1, activeUser);
         self.updateTable(2, self.numComments);
