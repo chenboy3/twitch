@@ -103,7 +103,7 @@ chatClient.prototype.parseMessage = function parseMessage(rawMessage) {
         command: null, /* not important? */
         original: rawMessage,
         channel: null, /* not important */
-        username: null
+        username: null,
         emoticons: {}
     };
 
@@ -119,7 +119,7 @@ chatClient.prototype.parseMessage = function parseMessage(rawMessage) {
         parsedMessage.command = rawMessage.slice(userIndex + 1, commandIndex);
         parsedMessage.channel = rawMessage.slice(commandIndex + 1, channelIndex);
         parsedMessage.message = rawMessage.slice(messageIndex + 1);
-        parsedMessage.messageLength = message.length - 1;
+        parsedMessage.messageLength = parsedMessage.message.length - 1;
         // update emoticons
     }
 
@@ -130,12 +130,12 @@ chatClient.prototype.parseMessage = function parseMessage(rawMessage) {
     return parsedMessage;
 }
 
-chatClient.prototype.updateInfo(parsedMessage) {
+chatClient.prototype.updateInfo = function(parsedMessage) {
 
-    messageTotalChars += parsedMessage[messageLength];
+    messageTotalChars += parsedMessage.messageLength;
     numComments++;
 
-    var user = parsedMessage[username];
+    var user = parsedMessage.username;
     if (userCommentHash.hasOwnProperty(user)) {
         userCommentHash[user]++;
     }
@@ -144,8 +144,8 @@ chatClient.prototype.updateInfo(parsedMessage) {
         numActiveViewers++;
     }
 
-    var message = parsedMessage[message].substring(0, parsedMessage[message].length - 1);
-    if (messageLength >= 100) {
+    var message = parsedMessage.message.substring(0, parsedMessage.message.length - 1);
+    if (parsedMessage.messageLength >= 100) {
         if (copypastaCountHash.hasOwnProperty(message)) {
             copypastaCountHash[message]++;
         }
@@ -197,25 +197,25 @@ chatClient.prototype.updateInfo(parsedMessage) {
         }
     }
 
-    emote = 'http://static-cdn.jtvnw.net/emoticons/v1/' + emote +'/3.0';
+    emote = '<img src="http://static-cdn.jtvnw.net/emoticons/v1/' + emote +'/1.0">';
 
     this.updateTable(1, activeUser);
     this.updateTable(2, numComments);
     this.updateTable(3, numActiveViewers);
     this.updateTable(4, numEmoticons);
-    this.updateTable(5, emote); // MOST POPULAR EMOTICON
+    this.updateTable(5, emote);
     this.updateTable(6, Object.keys(copypastaCountHash).length);
     this.updateTable(7, mostcp);
     this.updateTable(8, maxcp);
-    this.updateTable(9, ); // PEAK VIEWERS
-    this.updateTable(10, ); // percentage active viewers
+    this.updateTable(9, 0); // PEAK VIEWERS
+    this.updateTable(10, 0); // percentage active viewers
     this.updateTable(11, parseInt(messageTotalChars/numActiveViewers));
     this.updateTable(12, parseInt(numEmoticons/numActiveViewers));
-    this.updateTable(13, ); // uptime
+    this.updateTable(13, 0); // uptime
 
 }
 
-chatClient.prototype.updateTable (indice, value) {
+chatClient.prototype.updateTable = function(indice, value) {
     var tableCode = 'r' + indice + this.code;
     document.getElementById(tableCode).src = value;
 }

@@ -24,14 +24,14 @@ body {
 
 .channel1 {
 	margin-left: 120px;
-	color: rgb(255,255,255);
+	color: rgb(100,65,164);
 	font-family: Helvetica;
 }
 
 .channel2 {
 	margin-left: 470px;
 	/*margin-left: 700px; */
-	color: rgb(255,255,255);
+	color: rgb(100,65,164);
 	font-family: Helvetica;
 }
 
