@@ -1,3 +1,3 @@
-# RoTwitch
+# Channel Stats
 
-Displays two Twitch channels at once, and rotates them automatically when one gets significantly louder.
+Displays two Twitch channels at once, and calculates several statistics associated with the chats of both channels.
