@@ -1,15 +1,30 @@
 function channel1() {
 	var name = document.getElementById("channelName1").value;
-	document.getElementById('video1').src = 'http://player.twitch.tv/?channel=' + name;
-	document.getElementById('chat1').src = 'http://www.twitch.tv/' + name + '/chat';
+	if (name != null) {
+		document.getElementById('video1').src = 'http://player.twitch.tv/?channel=' + name;
+		document.getElementById('chat1').src = 'http://www.twitch.tv/' + name + '/chat';
+		window.chatClient = new chatClient({
+			channel: '#' + name,
+			username: 'statsbot1',
+			password: 'oauth:5wdfjk1peq08snxckn43aiankecz70',
+		});
+		window.chatClient.open();
+	}
 
 }
 
 function channel2() {
 	var name = document.getElementById("channelName2").value;
-	document.getElementById('video2').src = 'http://player.twitch.tv/?channel=' + name;
-	document.getElementById('chat2').src = 'http://www.twitch.tv/' + name + '/chat';
-
+	if (name != null) {
+		document.getElementById('video2').src = 'http://player.twitch.tv/?channel=' + name;
+		document.getElementById('chat2').src = 'http://www.twitch.tv/' + name + '/chat';
+		window.chatClient = new chatClient({
+			channel: '#' + name,
+			username: 'statsbot2',
+			password: 'oauth:2pcokcej8qk9fsibdbss6m89itfcde',
+		});
+		window.chatClient.open();
+	}
 }
 
 function rotate() {

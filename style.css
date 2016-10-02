@@ -11,6 +11,10 @@ body {
 	height: 100%;
 	position: absolute;
 }
+.row {
+	width: 100%;
+	border: 1px solid green;
+}
 
 .header {
 	margin-top: -400px;
@@ -117,3 +121,22 @@ body {
 	float: middle;
 	position: absolute;
 }
+
+.stats {
+	margin-top: 1220px;
+	background: rgb(38,38,38);
+	position: absolute;
+	text-align: center;
+}
+
+.marginAdjust {
+	/*margin-left: -40px;*/
+	text-align: center;
+	color: rgb(255,255,255);
+}
+
+.col-md-4 {
+	border: 3px solid orange;
+	color: rgb(255,255,255);
+}
+

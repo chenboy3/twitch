@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="challongeApp">
+<html >
 <head>
 	<title>RoTwitch</title>
 	<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
@@ -8,19 +8,6 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
 </head>
 <body>
-<!-- 	<div class="navbar navbar-default navbar-fixed-top" id="navbar">
-			<div class="container-fluid">
-				<div class="navbar-brand navbar-left">
-					<p id="header">Challonge Texter</p>
-				</div>
-				<div class="nav navbar-right">
-					<ul class="nav navbar-nav" id="test">
-						<li><a href="#">Login/Sign Up</a></li>
-						<li><a href="#">Create Bracket</a></li>
-					</ul>
-				</div>
-			</div>
-	</div> -->
 	<div class="container">
 		<div class="header">
 			<div class="row">
@@ -59,7 +46,7 @@
 		<div class="rotatediv">
 			<div class="row text-center">
 				<button onclick="rotate()" class="rotate btn btn-primary btn-lg">
-					Rotate!
+					Swap!
 				</button>
 			</div>
 		</div>
@@ -93,8 +80,8 @@
 	        scrolling="no"
 	        id="chat_embed"
 	        src="http://www.twitch.tv/beyondthesummit/chat"
-	        height="370px"
-	        width="710px">
+	        height="370"
+	        width="710">
 		</iframe>
 
 		<iframe
@@ -104,14 +91,140 @@
 	        scrolling="no"
 	        id="chat_embed"
 	        src="http://www.twitch.tv/Twitch/chat"
-	        height="370px"
-	        width="710px">
+	        height="370"
+	        width="710">
 		</iframe>
-
-
+		<div class="stats col-md-10">
+			<div class="header">
+				<div class="row">
+					<h1 class="text-center marginAdjust">
+						Stats
+					</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" id = "r1l">
+				hi
+				</div>
+				<div class="col-md-4 marginAdjust">
+				Most active viewer
+				</div>
+				<div class="col-md-4" id="r1r">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" id = "r2l">
+				</div>
+				<div class="col-md-4 marginAdjust">
+				Number of chat comments
+				</div>
+				<div class="col-md-4" id="r2r">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" id = "r3l">
+				</div>
+				<div class="col-md-4 marginAdjust">
+				Number of chat participants
+				</div>
+				<div class="col-md-4" id="r3r">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" id = "r4l">
+				</div>
+				<div class="col-md-4 marginAdjust">
+				Number of emoticons
+				</div>
+				<div class="col-md-4" id="r4r">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" id = "r5l">
+				</div>
+				<div class="col-md-4 marginAdjust">
+				Most popular emoticon
+				</div>
+				<div class="col-md-4" id="r5r">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" id = "r6l">
+				</div>
+				<div class="col-md-4 marginAdjust">
+				Number of copypastas
+				</div>
+				<div class="col-md-4" id="r6r">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" id = "r7l">
+				</div>
+				<div class="col-md-4 marginAdjust">
+				Most popular copypasta
+				</div>
+				<div class="col-md-4" id="r7r">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" id = "r8l">
+				</div>
+				<div class="col-md-4 marginAdjust">
+				Longest copypasta
+				</div>
+				<div class="col-md-4" id="r8r">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" id = "r9l">
+				</div>
+				<div class="col-md-4 marginAdjust">
+				Peak number of viewers
+				</div>
+				<div class="col-md-4" id="r9r">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" id = "r10l">
+				</div>
+				<div class="col-md-4 marginAdjust">
+				Average number of viewers
+				</div>
+				<div class="col-md-4" id="r10r">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" id = "r11l">
+				</div>
+				<div class="col-md-4 marginAdjust">
+				Average number of characters
+				</div>
+				<div class="col-md-4" id="r11r">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" id = "r12l">
+				</div>
+				<div class="col-md-4 marginAdjust">
+				Average number of emoticons
+				</div>
+				<div class="col-md-4" id="r12r">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4" id = "r12l">
+				</div>
+				<div class="col-md-4 marginAdjust">
+				Uptime
+				</div>
+				<div class="col-md-4" id="r12r">
+				</div>
+			</div>
+		</div>
 	</div>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script type="text/javascript" src="app.js"></script>
 	<script type="text/javascript" src="bootstrap.min.js"></script>
+	<script type="text/javascript" src="simple-chatbot.js"></script>
 </body>
 </html>

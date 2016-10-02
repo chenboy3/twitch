@@ -2,8 +2,23 @@
     This file is what connects to chat and parses messages as they come along. The chat client connects via a 
     Web Socket to Twitch chat. The important part events are onopen and onmessage.
 */
+/* global variables, used to update stats */
+var userCommentHash = {};
+var copypastaCountHash = {};
+var emoticonCountHash = {};
+var numActiveViewers = 0;
+var numComments = 0;
+var numEmoticons = 0;
+
+
 
 var chatClient = function chatClient(options){
+    if (options.left) {
+        this.code = 'l';
+    }
+    else {
+        this.code = 'r';
+    }
     this.username = options.username;
     this.password = options.password;
     this.channel = options.channel;
@@ -38,29 +53,11 @@ chatClient.prototype.onMessage = function onMessage(message){
 		if(message.data.slice(0, message.data.indexOf(' ')) === "PING"){
 			this.webSocket.send('PONG :tmi.twitch.tv');
 		}
-		
 		console.log(message.data);
         var parsed = this.parseMessage(message.data);
         if(parsed !== null){
-			if (parsed.message.length > 1 && parsed.message.charAt(0) === '!'){
-				var space = parsed.message.indexOf(' ');
-				if (space !== -1){
-					var command = parsed.message.slice(1, space).toLowerCase();
-					switch(command){
-						case "animal":
-							this.sendMessage(getFact());
-							break;
-					}
-				}
-			}
-            userPoints = localStorage.getItem(parsed.username);
-
-            if(userPoints === null){
-                localStorage.setItem(parsed.username, 10);
-            }
-            else {
-                localStorage.setItem(parsed.username, parseFloat(userPoints) + 0.25);
-            }
+			console.log(parsed);
+            this.updateInfo(parsed);
         }
     }
 };
@@ -100,11 +97,13 @@ intentional to show where each set of information is parsed. */
 chatClient.prototype.parseMessage = function parseMessage(rawMessage) {
     var parsedMessage = {
         message: null,
-        tags: null,
-        command: null,
+        messageLength: 0,
+        tags: null, /* not too important */
+        command: null, /* not important? */
         original: rawMessage,
-        channel: null,
+        channel: null, /* not important */
         username: null
+        emoticons: {}
     };
 
     if(rawMessage[0] === '@'){
@@ -119,6 +118,8 @@ chatClient.prototype.parseMessage = function parseMessage(rawMessage) {
         parsedMessage.command = rawMessage.slice(userIndex + 1, commandIndex);
         parsedMessage.channel = rawMessage.slice(commandIndex + 1, channelIndex);
         parsedMessage.message = rawMessage.slice(messageIndex + 1);
+        parsedMessage.messageLength = message.length - 1;
+        // update emoticons
     }
 
     if(parsedMessage.command !== 'PRIVMSG'){
@@ -128,25 +129,54 @@ chatClient.prototype.parseMessage = function parseMessage(rawMessage) {
     return parsedMessage;
 }
 
-/* Builds out the top 10 leaderboard in the UI using a jQuery template. */
-function buildLeaderboard(){
-    var chatKeys = Object.keys(localStorage),
-        outputTemplate = $('#entry-template').html(),
-        leaderboard = $('.leaderboard-output'),
-        sortedData = chatKeys.sort(function(a,b){
-            return localStorage[b]-localStorage[a]
-        });
-
-    leaderboard.empty();
-
-    for(var i = 0; i < 10; i++){
-        var viewerName = sortedData[i],
-            template = $(outputTemplate);
-
-        template.find('.rank').text(i + 1);
-        template.find('.user-name').text(viewerName);
-        template.find('.user-points').text(localStorage[viewerName]);
-
-        leaderboard.append(template);
+chatClient.prototype.updateInfo(parsedMessage) {
+    numComments++;
+    var user = parsedMessage[username];
+    if (userCommentHash.hasOwnProperty(user)) {
+        userCommentHash[user]++;
     }
+    else {
+        userCommentHash[user] = 1;
+        numActiveViewers++;
+    }
+
+    var message = parsedMessage[message].substring(0, parsedMessage[message].length - 1);
+    if (messageLength >= 100) {
+        if (copypastaCountHash.hasOwnProperty(message)) {
+            copypastaCountHash[message]++;
+        }
+        else {
+            copypastaCountHash[message] = 1;
+        }
+    }
+
+    for (var emote in emoticons) {
+        if (emoticonCountHash.hasOwnProperty(emote)) {
+            emoticonCountHash[emote] += emoticons[emote];
+        }
+        else {
+            emoticonCountHash[emote] = emoticons[emote];
+        }
+        numEmoticons += emoticons[emote];
+    }
+
+    var maxComments = 0;
+    var activeUser;
+    for (var user in userCommentHash) {
+        if (userCommentHash[user] > maxComments) {
+            maxComments = userCommentHash[user];
+            activeUser = user;
+        }
+    }
+
+    this.updateTable(1, activeUser);
+    this.updateTable(2, numComments);
+    this.updateTable(3, numActiveViewers);
+    
+
+}
+
+chatClient.prototype.updateTable (indice, value) {
+    var tableCode = 'r' + indice + this.code;
+    document.getElementById(tableCode).src = value;
 }
