@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+    <title>Leaderboards</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="leaderboard.css">
+</head>
+<body>
+    <script id="entry-template" type="text/x-custom-template">
+        <div class="entry">
+            <span class="rank"></span>
+            <div class="user-info">
+                <span class="user-name"></span>
+                <span class="user-points"></span> points
+            </div>
+        </div>
+    </script>
+    
+    <div class="button-list">
+        <button class="connect btn">Connect to chat</button>
+        <button class="disconnect btn">Disconnect from chat</button>
+        <button class="display btn">Populate leaderboard</button>
+		<button class="send btn">Send Message</button>
+		<button class="animal btn">Get Animal Fact</button>
+    </div>
+
+    <div id="leaderboard">
+        <div class="header">Leaderboard</div>
+        <div class="leaderboard-output"></div>
+    </div>
+
+    <script src="simple-chatbot.js"></script>
+    <script>
+    $(document).ready(function(){
+		var stream = window.prompt("Enter twitch stream", "rushhoursmash");
+		if (stream != null) {
+			window.chatClient = new chatClient({
+				channel: '#' + stream,
+				username: 'creature__bot',
+				password: 'oauth:k6t2tuebww41k1s5ecvsyhagleifp9',
+			});
+			window.chatClient.open();
+		}
+		
+        $('.connect').click(function(){
+            window.chatClient.open();
+        });
+        $('.disconnect').click(function(){
+            window.chatClient.close();
+        });
+        $('.display').click(function(){
+            buildLeaderboard();
+        });
+		$('.send').click(function(){
+			window.chatClient.sendMessage(prompt("message to send"));
+		});
+		$('.animal').click(function(){
+			function getURL(){
+				var SERVICEURL = "http://www.thefactsite.com/2010/09/300-random-animal-facts.html/";
+				var FACTS_PER_PAGE = 50;
+				var FACTS_TOTAL = 300;
+				
+				var rand_fact_num = parseInt(Math.random() * FACTS_TOTAL) + 1;
+				var page_num = Math.floor(rand_fact_num / FACTS_PER_PAGE) + 1;
+				return SERVICEURL + page_num;
+			}
+			
+			$.get(getURL(), function(data, status){
+				console.log("Data: " + data + "\nStatus: " + status);
+			});
+		});
+    });
+    </script>
+</body>
+</html>
