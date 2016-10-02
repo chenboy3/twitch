@@ -7,6 +7,7 @@ function channel1() {
 			channel: '#' + name,
 			username: 'statsbot1',
 			password: 'oauth:5wdfjk1peq08snxckn43aiankecz70',
+			left: true;
 		});
 		window.chatClient.open();
 	}
@@ -22,6 +23,7 @@ function channel2() {
 			channel: '#' + name,
 			username: 'statsbot2',
 			password: 'oauth:2pcokcej8qk9fsibdbss6m89itfcde',
+			left: false;
 		});
 		window.chatClient.open();
 	}
