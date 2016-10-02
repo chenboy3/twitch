@@ -3,13 +3,13 @@ function channel1() {
 	if (name != null) {
 		document.getElementById('video1').src = 'http://player.twitch.tv/?channel=' + name;
 		document.getElementById('chat1').src = 'http://www.twitch.tv/' + name + '/chat';
-		window.chatClient = new chatClient({
+		window.chatClient1 = new chatClient({
 			channel: '#' + name,
 			username: 'statsbot1',
 			password: 'oauth:5wdfjk1peq08snxckn43aiankecz70',
 			left: true
 		});
-		window.chatClient.open();
+		window.chatClient1.open();
 	}
 
 }
@@ -19,13 +19,13 @@ function channel2() {
 	if (name != null) {
 		document.getElementById('video2').src = 'http://player.twitch.tv/?channel=' + name;
 		document.getElementById('chat2').src = 'http://www.twitch.tv/' + name + '/chat';
-		window.chatClient = new chatClient({
+		window.chatClient2 = new chatClient({
 			channel: '#' + name,
 			username: 'statsbot2',
 			password: 'oauth:2pcokcej8qk9fsibdbss6m89itfcde',
 			left: false
 		});
-		window.chatClient.open();
+		window.chatClient2.open();
 	}
 }
 

@@ -57,10 +57,8 @@ chatClient.prototype.onMessage = function onMessage(message){
 		if(message.data.slice(0, message.data.indexOf(' ')) === "PING"){
 			this.webSocket.send('PONG :tmi.twitch.tv');
 		}
-		// console.log(message.data);
         var parsed = this.parseMessage(message.data);
         if(parsed !== null){
-			// console.log(parsed);
             this.updateInfo(parsed);
         }
     }
@@ -234,7 +232,6 @@ chatClient.prototype.updateInfo = function(parsedMessage) {
 
     var self = this;
     $.get(getURL, function(response){
-        console.log(self.code);
         var numTotalViewers = response['stream']['viewers'];
         if (numTotalViewers > maxViewers) {
             maxViewers = numTotalViewers;
