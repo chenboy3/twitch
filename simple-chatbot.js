@@ -6,9 +6,11 @@
 var userCommentHash = {};
 var copypastaCountHash = {};
 var emoticonCountHash = {};
+var userEmoticonHash = {};
 var numActiveViewers = 0;
 var numComments = 0;
 var numEmoticons = 0;
+var numEmoticonPosters = 0;
 var messageTotalChars = 0;
 
 
@@ -121,6 +123,7 @@ chatClient.prototype.parseMessage = function parseMessage(rawMessage) {
         parsedMessage.message = rawMessage.slice(messageIndex + 1);
         parsedMessage.messageLength = parsedMessage.message.length - 1;
         // update emoticons
+        parsedMessage.emoticons = this.parseEmoticons(rawMessage);
     }
 
     if(parsedMessage.command !== 'PRIVMSG'){
@@ -128,6 +131,29 @@ chatClient.prototype.parseMessage = function parseMessage(rawMessage) {
     }
 
     return parsedMessage;
+}
+
+chatClient.prototype.parseEmoticons = function(string) {
+    var emoteIndex = string.indexOf('emotes') + 7;
+    var emoteEndIndex = string.indexOf(';', emoteIndex);
+    var hash = {};
+    while (emoteIndex <  emoteEndIndex) {
+        var emoteBreak = string.indexOf(':', emoteIndex);
+        var emoteValue = parseInt(string.substring(emoteIndex, emoteBreak));
+        if (!hash.hasOwnProperty(emoteValue)) {
+            hash[emoteValue] = 0;
+        }
+        emoteIndex = emoteBreak;
+        while (string.charAt(emoteIndex) !== '/' && string.charAt(emoteIndex) !== ';') {
+            emoteIndex++;
+            if (string.charAt(emoteIndex) === '-') {
+                hash[emoteValue]++;
+            }
+        }
+        emoteIndex++;
+    }
+    return hash;
+
 }
 
 chatClient.prototype.updateInfo = function(parsedMessage) {
@@ -144,6 +170,11 @@ chatClient.prototype.updateInfo = function(parsedMessage) {
         numActiveViewers++;
     }
 
+    if (parsedMessage.emoticons.length !== 0 && !userEmoticonHash.hasOwnProperty(user)) {
+        userEmoticonHash[user] = true;
+        numEmoticonPosters++;
+    }
+
     var message = parsedMessage.message.substring(0, parsedMessage.message.length - 1);
     if (parsedMessage.messageLength >= 100) {
         if (copypastaCountHash.hasOwnProperty(message)) {
@@ -154,14 +185,14 @@ chatClient.prototype.updateInfo = function(parsedMessage) {
         }
     }
 
-    for (var emote in emoticons) {
+    for (var emote in parsedMessage.emoticons) {
         if (emoticonCountHash.hasOwnProperty(emote)) {
-            emoticonCountHash[emote] += emoticons[emote];
+            emoticonCountHash[emote] += parsedMessage.emoticons[emote];
         }
         else {
-            emoticonCountHash[emote] = emoticons[emote];
+            emoticonCountHash[emote] = parsedMessage.emoticons[emote];
         }
-        numEmoticons += emoticons[emote];
+        numEmoticons += parsedMessage.emoticons[emote];
     }
 
     var maxComments = 0;
@@ -177,7 +208,7 @@ chatClient.prototype.updateInfo = function(parsedMessage) {
     var emote = '';
     for (var e in emoticonCountHash) {
         if (emoticonCountHash[e] > maxEmotes) {
-            maxEmotes = emoticonCountHash;
+            maxEmotes = emoticonCountHash[e];
             emote = e;
         }
     }
@@ -199,23 +230,24 @@ chatClient.prototype.updateInfo = function(parsedMessage) {
 
     emote = '<img src="http://static-cdn.jtvnw.net/emoticons/v1/' + emote +'/1.0">';
 
+    console.log("UPDATING TABLE");
     this.updateTable(1, activeUser);
     this.updateTable(2, numComments);
     this.updateTable(3, numActiveViewers);
     this.updateTable(4, numEmoticons);
-    this.updateTable(5, emote);
+    this.updateTable(5, emote + ', ' + maxEmotes);
     this.updateTable(6, Object.keys(copypastaCountHash).length);
     this.updateTable(7, mostcp);
     this.updateTable(8, maxcp);
     this.updateTable(9, 0); // PEAK VIEWERS
     this.updateTable(10, 0); // percentage active viewers
     this.updateTable(11, parseInt(messageTotalChars/numActiveViewers));
-    this.updateTable(12, parseInt(numEmoticons/numActiveViewers));
+    this.updateTable(12, numEmoticons/numEmoticonPosters);
     this.updateTable(13, 0); // uptime
 
 }
 
 chatClient.prototype.updateTable = function(indice, value) {
     var tableCode = 'r' + indice + this.code;
-    document.getElementById(tableCode).src = value;
+    document.getElementById(tableCode).innerHTML = value;
 }
