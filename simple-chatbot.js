@@ -12,6 +12,7 @@ var numComments = 0;
 var numEmoticons = 0;
 var numEmoticonPosters = 0;
 var messageTotalChars = 0;
+var maxViewers = 0;
 
 
 
@@ -229,25 +230,47 @@ chatClient.prototype.updateInfo = function(parsedMessage) {
     }
 
     emote = '<img src="http://static-cdn.jtvnw.net/emoticons/v1/' + emote +'/1.0">';
+    var getURL = "https://api.twitch.tv/kraken/streams/" + this.channel.substring(1);
 
-    // console.log("UPDATING TABLE");
-    this.updateTable(1, activeUser);
-    this.updateTable(2, numComments);
-    this.updateTable(3, numActiveViewers);
-    this.updateTable(4, numEmoticons);
-    this.updateTable(5, emote + ', ' + maxEmotes);
-    this.updateTable(6, Object.keys(copypastaCountHash).length);
-    this.updateTable(7, mostcp);
-    this.updateTable(8, maxcp);
-    this.updateTable(9, 0); // PEAK VIEWERS
-    this.updateTable(10, 0); // percentage active viewers
-    this.updateTable(11, parseInt(messageTotalChars/numActiveViewers));
-    this.updateTable(12, numEmoticons/numEmoticonPosters);
-    this.updateTable(13, 0); // uptime
+    var self = this;
+    $.get(getURL, function(response){
+        console.log(self.code);
+        var numTotalViewers = response['stream']['viewers'];
+        if (numTotalViewers > maxViewers) {
+            maxViewers = numTotalViewers;
+        }
+        self.updateTable(1, activeUser);
+        self.updateTable(2, numComments);
+        self.updateTable(3, numActiveViewers);
+        self.updateTable(4, numEmoticons);
+        self.updateTable(5, emote + ', ' + maxEmotes);
+        self.updateTable(6, Object.keys(copypastaCountHash).length);
+        self.updateTable(7, mostcp);
+        self.updateTable(8, maxcp);
+        self.updateTable(9, maxViewers); // max viewers
+        self.updateTable(10, /* 0 */numActiveViewers/numTotalViewers*100 + '%'); // percentage active viewers
+        self.updateTable(11, parseInt(messageTotalChars/numActiveViewers));
+        self.updateTable(12, numEmoticons/numEmoticonPosters);
+        self.updateTable(13, 0); // uptime
+    });
+
 
 }
 
 chatClient.prototype.updateTable = function(indice, value) {
     var tableCode = 'r' + indice + this.code;
     document.getElementById(tableCode).innerHTML = value;
+}
+
+var HttpClient = function() {
+    this.get = function(aUrl, aCallback) {
+        var anHttpRequest = new XMLHttpRequest();
+        anHttpRequest.onreadystatechange = function() {
+            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+                aCallback(anHttpRequest.responseText);
+        }
+
+        anHttpRequest.open( "GET", aUrl, true );
+        anHttpRequest.send( null );
+    }
 }
