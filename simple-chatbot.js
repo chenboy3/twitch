@@ -247,7 +247,7 @@ chatClient.prototype.updateInfo = function(parsedMessage) {
             self.updateTable(10, /* 0 */self.numActiveViewers/numTotalViewers*100 + '%'); // percentage active viewers
             self.updateTable(11, parseInt(self.messageTotalChars/self.numActiveViewers));
             self.updateTable(12, self.numEmoticons/self.numEmoticonPosters);
-            self.updateTable(13, 0); // uptime
+            // self.updateTable(13, 0); // uptime
         });
     }, 500);
 
