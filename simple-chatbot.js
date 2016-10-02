@@ -3,18 +3,6 @@
     Web Socket to Twitch chat. The important part events are onopen and onmessage.
 */
 /* global variables, used to update stats */
-var userCommentHash = {};
-var copypastaCountHash = {};
-var emoticonCountHash = {};
-var userEmoticonHash = {};
-var numActiveViewers = 0;
-var numComments = 0;
-var numEmoticons = 0;
-var numEmoticonPosters = 0;
-var messageTotalChars = 0;
-var maxViewers = 0;
-
-
 
 var chatClient = function chatClient(options){
     if (options.left) {
@@ -28,6 +16,16 @@ var chatClient = function chatClient(options){
     this.channel = options.channel;
     this.server = 'irc-ws.chat.twitch.tv';
     this.port = 443;
+    this.userCommentHash = {};
+    this.copypastaCountHash = {};
+    this.emoticonCountHash = {};
+    this.userEmoticonHash = {};
+    this.numActiveViewers = 0;
+    this.numComments = 0;
+    this.numEmoticons = 0;
+    this.numEmoticonPosters = 0;
+    this.messageTotalChars = 0;
+    this.maxViewers = 0;
 }
 
 chatClient.prototype.open = function open(){
@@ -157,57 +155,57 @@ chatClient.prototype.parseEmoticons = function(string) {
 
 chatClient.prototype.updateInfo = function(parsedMessage) {
 
-    messageTotalChars += parsedMessage.messageLength;
-    numComments++;
+    this.messageTotalChars += parsedMessage.messageLength;
+    this.numComments++;
 
     var user = parsedMessage.username;
-    if (userCommentHash.hasOwnProperty(user)) {
-        userCommentHash[user]++;
+    if (this.userCommentHash.hasOwnProperty(user)) {
+        this.userCommentHash[user]++;
     }
     else {
-        userCommentHash[user] = 1;
-        numActiveViewers++;
+        this.userCommentHash[user] = 1;
+        this.numActiveViewers++;
     }
 
-    if (parsedMessage.emoticons.length !== 0 && !userEmoticonHash.hasOwnProperty(user)) {
-        userEmoticonHash[user] = true;
-        numEmoticonPosters++;
+    if (parsedMessage.emoticons.length !== 0 && !this.userEmoticonHash.hasOwnProperty(user)) {
+        this.userEmoticonHash[user] = true;
+        this.numEmoticonPosters++;
     }
 
     var message = parsedMessage.message.substring(0, parsedMessage.message.length - 1);
     if (parsedMessage.messageLength >= 100) {
-        if (copypastaCountHash.hasOwnProperty(message)) {
-            copypastaCountHash[message]++;
+        if (this.copypastaCountHash.hasOwnProperty(message)) {
+            this.copypastaCountHash[message]++;
         }
         else {
-            copypastaCountHash[message] = 1;
+            this.copypastaCountHash[message] = 1;
         }
     }
 
     for (var emote in parsedMessage.emoticons) {
-        if (emoticonCountHash.hasOwnProperty(emote)) {
-            emoticonCountHash[emote] += parsedMessage.emoticons[emote];
+        if (this.emoticonCountHash.hasOwnProperty(emote)) {
+            this.emoticonCountHash[emote] += parsedMessage.emoticons[emote];
         }
         else {
-            emoticonCountHash[emote] = parsedMessage.emoticons[emote];
+            this.emoticonCountHash[emote] = parsedMessage.emoticons[emote];
         }
-        numEmoticons += parsedMessage.emoticons[emote];
+        this.numEmoticons += parsedMessage.emoticons[emote];
     }
 
     var maxComments = 0;
     var activeUser;
-    for (var user in userCommentHash) {
-        if (userCommentHash[user] > maxComments) {
-            maxComments = userCommentHash[user];
+    for (var user in this.userCommentHash) {
+        if (this.userCommentHash[user] > maxComments) {
+            maxComments = this.userCommentHash[user];
             activeUser = user;
         }
     }
 
     var maxEmotes = 0;
     var emote = '';
-    for (var e in emoticonCountHash) {
-        if (emoticonCountHash[e] > maxEmotes) {
-            maxEmotes = emoticonCountHash[e];
+    for (var e in this.emoticonCountHash) {
+        if (this.emoticonCountHash[e] > maxEmotes) {
+            maxEmotes = this.emoticonCountHash[e];
             emote = e;
         }
     }
@@ -216,13 +214,13 @@ chatClient.prototype.updateInfo = function(parsedMessage) {
     var maxcp = '';
     var maxrep = 0;
     var mostcp = '';
-    for (var cp in copypastaCountHash) {
+    for (var cp in this.copypastaCountHash) {
         if (cp.length > maxLength) {
             maxLength = cp.length;
             maxcp = cp;
         }
-        if (copypastaCountHash[cp] > maxrep) {
-            maxrep = copypastaCountHash[cp];
+        if (this.copypastaCountHash[cp] > maxrep) {
+            maxrep = this.copypastaCountHash[cp];
             mostcp = cp;
         }
     }
@@ -233,21 +231,21 @@ chatClient.prototype.updateInfo = function(parsedMessage) {
     var self = this;
     $.get(getURL, function(response){
         var numTotalViewers = response['stream']['viewers'];
-        if (numTotalViewers > maxViewers) {
-            maxViewers = numTotalViewers;
+        if (numTotalViewers > this.maxViewers) {
+            this.maxViewers = numTotalViewers;
         }
         self.updateTable(1, activeUser);
-        self.updateTable(2, numComments);
-        self.updateTable(3, numActiveViewers);
-        self.updateTable(4, numEmoticons);
+        self.updateTable(2, self.numComments);
+        self.updateTable(3, self.numActiveViewers);
+        self.updateTable(4, self.numEmoticons);
         self.updateTable(5, emote + ', ' + maxEmotes);
-        self.updateTable(6, Object.keys(copypastaCountHash).length);
+        self.updateTable(6, Object.keys(self.copypastaCountHash).length);
         self.updateTable(7, mostcp);
         self.updateTable(8, maxcp);
-        self.updateTable(9, maxViewers); // max viewers
-        self.updateTable(10, /* 0 */numActiveViewers/numTotalViewers*100 + '%'); // percentage active viewers
-        self.updateTable(11, parseInt(messageTotalChars/numActiveViewers));
-        self.updateTable(12, numEmoticons/numEmoticonPosters);
+        self.updateTable(9, self.maxViewers); // max viewers
+        self.updateTable(10, /* 0 */self.numActiveViewers/numTotalViewers*100 + '%'); // percentage active viewers
+        self.updateTable(11, parseInt(self.messageTotalChars/self.numActiveViewers));
+        self.updateTable(12, self.numEmoticons/self.numEmoticonPosters);
         self.updateTable(13, 0); // uptime
     });
 
