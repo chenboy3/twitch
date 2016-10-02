@@ -227,27 +227,29 @@ chatClient.prototype.updateInfo = function(parsedMessage) {
 
     emote = '<img src="http://static-cdn.jtvnw.net/emoticons/v1/' + emote +'/1.0">';
     var getURL = "https://api.twitch.tv/kraken/streams/" + this.channel.substring(1);
+            var self = this;
+    window.setTimeout(function() {
 
-    var self = this;
-    $.get(getURL, function(response){
-        var numTotalViewers = response['stream']['viewers'];
-        if (numTotalViewers > self.maxViewers) {
-            self.maxViewers = numTotalViewers;
-        }
-        self.updateTable(1, activeUser);
-        self.updateTable(2, self.numComments);
-        self.updateTable(3, self.numActiveViewers);
-        self.updateTable(4, self.numEmoticons);
-        self.updateTable(5, emote + ', ' + maxEmotes);
-        self.updateTable(6, Object.keys(self.copypastaCountHash).length);
-        self.updateTable(7, mostcp);
-        self.updateTable(8, maxcp);
-        self.updateTable(9, self.maxViewers); // max viewers
-        self.updateTable(10, /* 0 */self.numActiveViewers/numTotalViewers*100 + '%'); // percentage active viewers
-        self.updateTable(11, parseInt(self.messageTotalChars/self.numActiveViewers));
-        self.updateTable(12, self.numEmoticons/self.numEmoticonPosters);
-        self.updateTable(13, 0); // uptime
-    });
+        $.get(getURL, function(response){
+            var numTotalViewers = response['stream']['viewers'];
+            if (numTotalViewers > self.maxViewers) {
+                self.maxViewers = numTotalViewers;
+            }
+            self.updateTable(1, activeUser);
+            self.updateTable(2, self.numComments);
+            self.updateTable(3, self.numActiveViewers);
+            self.updateTable(4, self.numEmoticons);
+            self.updateTable(5, emote + ', ' + maxEmotes);
+            self.updateTable(6, Object.keys(self.copypastaCountHash).length);
+            self.updateTable(7, mostcp);
+            self.updateTable(8, maxcp);
+            self.updateTable(9, self.maxViewers); // max viewers
+            self.updateTable(10, /* 0 */self.numActiveViewers/numTotalViewers*100 + '%'); // percentage active viewers
+            self.updateTable(11, parseInt(self.messageTotalChars/self.numActiveViewers));
+            self.updateTable(12, self.numEmoticons/self.numEmoticonPosters);
+            self.updateTable(13, 0); // uptime
+        });
+    }, 500);
 
 
 }
