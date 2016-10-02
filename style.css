@@ -13,7 +13,7 @@ body {
 }
 .row {
 	width: 100%;
-	border: 1px solid green;
+/*	border: 1px solid green;*/
 }
 
 .header {
@@ -124,7 +124,6 @@ body {
 
 .stats {
 	margin-top: 1220px;
-	background: rgb(38,38,38);
 	position: absolute;
 	text-align: center;
 }
@@ -136,7 +135,7 @@ body {
 }
 
 .col-md-4 {
-	border: 3px solid orange;
+/*	border: 3px solid orange;*/
 	color: rgb(255,255,255);
 }
 

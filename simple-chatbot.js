@@ -56,10 +56,10 @@ chatClient.prototype.onMessage = function onMessage(message){
 		if(message.data.slice(0, message.data.indexOf(' ')) === "PING"){
 			this.webSocket.send('PONG :tmi.twitch.tv');
 		}
-		console.log(message.data);
+		// console.log(message.data);
         var parsed = this.parseMessage(message.data);
         if(parsed !== null){
-			console.log(parsed);
+			// console.log(parsed);
             this.updateInfo(parsed);
         }
     }
@@ -230,7 +230,7 @@ chatClient.prototype.updateInfo = function(parsedMessage) {
 
     emote = '<img src="http://static-cdn.jtvnw.net/emoticons/v1/' + emote +'/1.0">';
 
-    console.log("UPDATING TABLE");
+    // console.log("UPDATING TABLE");
     this.updateTable(1, activeUser);
     this.updateTable(2, numComments);
     this.updateTable(3, numActiveViewers);
